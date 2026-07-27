@@ -1,0 +1,40 @@
+flowchart TD
+    subgraph Client ["Terminal Dashboard / CLI"]
+        UserPrompt["User Query / Preferences"]
+    end
+
+    subgraph InputGuardrail ["Input Safety Layer"]
+        InputCheck{"Input Guardrail Check<br/>(Out-of-Scope & Prompt Injection)"}
+        BlockedInput["Return Refusal Message"]
+    end
+
+    subgraph AgenticPipeline ["Agentic Parsing & Search"]
+        Agent["Agentic Query Parser<br/>(Extracts Mood, BPM, Genre, Explicit Constraints)"]
+        Retriever["Retriever Engine<br/>(Vector Embeddings & Continuous Audio Proximity)"]
+    end
+
+    subgraph ScoringEngine ["Multi-Attribute Recommender Engine"]
+        Scorer["Proximity Matcher<br/>(Valence, Danceability, Tempo & Diversity Penalty)"]
+        LLMSynthesizer["LLM Explanation Synthesizer<br/>(Generates Personalized Descriptions)"]
+    end
+
+    subgraph OutputGuardrail ["Output Safety & Validation"]
+        OutputCheck{"Output Guardrail Check<br/>(Explicit Content Filter & Hallucinated Track Validation)"}
+        BlockedOutput["Trigger Safe Fallback Refusal"]
+    end
+
+    subgraph SystemOutput ["Response & Auditing"]
+        FinalPlaylist["Final Personalized Playlist"]
+        Logger["Execution Logger<br/>(Trace Log & Scores)"]
+    end
+
+    UserPrompt --> InputCheck
+    InputCheck -- "Fails" --> BlockedInput
+    InputCheck -- "Passes" --> Agent
+    Agent --> Retriever
+    Retriever --> Scorer
+    Scorer --> LLMSynthesizer
+    LLMSynthesizer --> OutputCheck
+    OutputCheck -- "Fails Validation" --> BlockedOutput
+    OutputCheck -- "Passes Validation" --> FinalPlaylist
+    FinalPlaylist --> Logger
