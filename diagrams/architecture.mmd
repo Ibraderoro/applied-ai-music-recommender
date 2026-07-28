@@ -1,40 +1,78 @@
 flowchart TD
-    subgraph Client ["Terminal Dashboard / CLI"]
-        UserPrompt["User Query / Preferences"]
+    %% Node Styling Definitions
+    classDef userLayer fill:#2B3A4A,stroke:#4A607A,stroke-width:2px,color:#FFFFFF
+    classDef safetyLayer fill:#8B263E,stroke:#C0392B,stroke-width:2px,color:#FFFFFF
+    classDef agentLayer fill:#1E5128,stroke:#4E9F3D,stroke-width:2px,color:#FFFFFF
+    classDef retrievalLayer fill:#2C3E50,stroke:#34495E,stroke-width:2px,color:#FFFFFF
+    classDef outputLayer fill:#D4AC0D,stroke:#B7950B,stroke-width:2px,color:#000000
+    classDef evalLayer fill:#4A235A,stroke:#7D3C98,stroke-width:2px,color:#FFFFFF
+
+    %% User & Client Interface
+    subgraph Client ["🖥️ Terminal CLI & Input Layer"]
+        UserQuery["Natural Language User Query<br/><i>(e.g., 'Upbeat pop for workout')</i>"]:::userLayer
     end
 
-    subgraph InputGuardrail ["Input Safety Layer"]
-        InputCheck{"Input Guardrail Check<br/>(Out-of-Scope & Prompt Injection)"}
-        BlockedInput["Return Refusal Message"]
+    %% Input Security & Validation
+    subgraph InputSecurity ["🛡️ Deterministic Input Guardrail"]
+        InputCheck{"Input Validation Check<br/><i>(Regex Regex-based)</i>"}:::safetyLayer
+        RefusalInput["Return Refusal Message<br/><i>(Out-of-Scope / Injection Blocked)</i>"]:::safetyLayer
     end
 
-    subgraph AgenticPipeline ["Agentic Parsing & Search"]
-        Agent["Agentic Query Parser<br/>(Extracts Mood, BPM, Genre, Explicit Constraints)"]
-        Retriever["Retriever Engine<br/>(Vector Embeddings & Continuous Audio Proximity)"]
+    %% Agentic Parsing Pipeline
+    subgraph AgenticPipeline ["🧠 Agentic Intent Parser (Gemini)"]
+        GeminiAgent["Gemini 2.5 Flash Agent<br/><i>(Parses Query to JSON Constraints)</i>"]:::agentLayer
+        FallbackExtractor["Keyword Fallback Engine<br/><i>(Triggered if LLM / API Offline)</i>"]:::agentLayer
     end
 
-    subgraph ScoringEngine ["Multi-Attribute Recommender Engine"]
-        Scorer["Proximity Matcher<br/>(Valence, Danceability, Tempo & Diversity Penalty)"]
-        LLMSynthesizer["LLM Explanation Synthesizer<br/>(Generates Personalized Descriptions)"]
+    %% Data Retrieval & Scoring
+    subgraph RetrievalEngine ["🔍 Multi-Attribute Retriever"]
+        Database[("data/songs.csv<br/><i>(20 Ground-Truth Audio Tracks)</i>")]:::retrievalLayer
+        Scorer["Proximity Scoring Engine<br/><i>(Valence, Tempo, Energy Proximity)</i>"]:::retrievalLayer
+        DiversityFilter["Dynamic Artist Diversity Filter<br/><i>(Penalizes Duplicate Artists)</i>"]:::retrievalLayer
     end
 
-    subgraph OutputGuardrail ["Output Safety & Validation"]
-        OutputCheck{"Output Guardrail Check<br/>(Explicit Content Filter & Hallucinated Track Validation)"}
-        BlockedOutput["Trigger Safe Fallback Refusal"]
+    %% Output Validation & Hallucination Prevention
+    subgraph OutputSecurity ["🛡️ Deterministic Output Guardrail"]
+        OutputCheck{"Database Verification Check<br/><i>(Ensures Tracks Exist in CSV)</i>"}:::safetyLayer
+        RefusalOutput["Return Safe Refusal Message<br/><i>(Hallucinated Tracks Blocked)</i>"]:::safetyLayer
     end
 
-    subgraph SystemOutput ["Response & Auditing"]
-        FinalPlaylist["Final Personalized Playlist"]
-        Logger["Execution Logger<br/>(Trace Log & Scores)"]
+    %% Grounded Explanation Synthesis
+    subgraph ConciergeSynthesis ["✨ RAG Explanation Synthesizer"]
+        RAGSynthesizer["Grounded Concierge Synthesizer<br/><i>(Generates Explanation using Validated Metadata)</i>"]:::outputLayer
+        FinalDisplay["Recommended Playlist & Explanation<br/><i>(Rendered via CLI Dashboard)</i>"]:::outputLayer
     end
 
-    UserPrompt --> InputCheck
-    InputCheck -- "Fails" --> BlockedInput
-    InputCheck -- "Passes" --> Agent
-    Agent --> Retriever
-    Retriever --> Scorer
-    Scorer --> LLMSynthesizer
-    LLMSynthesizer --> OutputCheck
-    OutputCheck -- "Fails Validation" --> BlockedOutput
-    OutputCheck -- "Passes Validation" --> FinalPlaylist
-    FinalPlaylist --> Logger
+    %% Logging, Human Audit & Automated Evaluation
+    subgraph TestingAudit ["📊 Reliability, Logging & Human Audit"]
+        ExecLog[("system_execution.log<br/><i>(Trace Logs & Guardrail Triggers)</i>")]:::evalLayer
+        AutomatedEval["Automated Test Suite (eval.py)<br/><i>(Measures Guardrail Pass % & Precision)</i>"]:::evalLayer
+        HumanAudit["Human Reviewer / Audit Table<br/><i>(Verifies Vibe Relevance in model_card.md)</i>"]:::evalLayer
+    end
+
+    %% System Data Flow Connections
+    UserQuery --> InputCheck
+    InputCheck -- "Fails Rules" --> RefusalInput
+    InputCheck -- "Passes Rules" --> GeminiAgent
+
+    GeminiAgent -- "API Success" --> Scorer
+    GeminiAgent -- "API Failure / Timeout" --> FallbackExtractor
+    FallbackExtractor --> Scorer
+
+    Database --> Scorer
+    Scorer --> DiversityFilter
+    DiversityFilter --> OutputCheck
+
+    OutputCheck -- "Invalid / Empty" --> RefusalOutput
+    OutputCheck -- "Valid Tracks" --> RAGSynthesizer
+
+    RAGSynthesizer --> FinalDisplay
+
+    %% Data Flow to Logging & Testing
+    FinalDisplay --> ExecLog
+    RefusalInput --> ExecLog
+    RefusalOutput --> ExecLog
+
+    AutomatedEval --> InputCheck
+    AutomatedEval --> OutputCheck
+    HumanAudit --> FinalDisplay

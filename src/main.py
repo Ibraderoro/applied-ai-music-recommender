@@ -1,112 +1,137 @@
-"""Command line runner showcasing dynamic recommendation strategies and wrapped table views."""
+"""
+Main CLI Runner for the Applied AI Music Recommender System.
+Integrates Input Guardrails, Agentic Query Parsing, Vector/Feature Retrieval,
+LLM Explanation Synthesis, and Output Validation Guardrails.
+"""
 
-from typing import Any, Dict, List
-from .recommender import load_songs, recommend_songs
+import os
+import sys
+import logging
+from dotenv import load_dotenv
 
-def wrap_text(text: str, width: int) -> List[str]:
-    """Wraps a string of piped reasons into multiple chunks based on target width."""
-    # Split by our divider so we don't break key-value pairs mid-word if possible
-    parts = text.split(" | ")
-    lines: List[str] = []
-    current_line = ""
-    
-    for part in parts:
-        # Re-add pipe separator if we are appending to an active line
-        candidate = f"{current_line} | {part}" if current_line else part
-        if len(candidate) <= width:
-            current_line = candidate
-        else:
-            if current_line:
-                lines.append(current_line)
-            current_line = part
-            
-    if current_line:
-        lines.append(current_line)
-    return lines
+sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
-def main() -> None:
-    csv_path = "data/songs.csv"
-    songs = load_songs(csv_path) 
-    print(f"=== [SYSTEM] Initializing Multi-Strategy System Test. Catalog Size: {len(songs)} tracks. ===\n")
+load_dotenv(override=True)
 
-    # Populating 5+ advanced continuous preferences
-    user_prefs: Dict[str, Any] = {
-        "genre": "pop",
-        "mood": "happy",
-        "energy": 0.95,
-        "likes_acoustic": False,
-        "valence": 0.80,       # High positivity preference
-        "danceability": 0.85,  # High groove preference
-        "tempo": 125.0         # Club-ready tempo pacing
-    }
+from guardrails import validate_input_query, validate_output_recommendations
+from agent import MusicAgent
+from retriever import TrackRetriever
 
-    strategies = ["balanced", "acoustic", "strict_genre"]
-    
-    # Define strict column widths for alignment
-    col_rank = 6
-    col_title = 22
-    col_artist = 18
-    col_score = 7
-    col_explain_width = 65  # Limit audit trail column width so it fits cleanly
-    
-    total_width = col_rank + col_title + col_artist + col_score + col_explain_width + 12 # plus spacer margins
+logging.basicConfig(
+    filename="system_execution.log",
+    level=logging.INFO,
+    format="%(asctime)s - %(levelname)s - %(message)s"
+)
 
-    for strategy in strategies:
-        print("=" * total_width)
-        print(f"🚀 VIBEPULSE ENGINE STRATEGY: {strategy.upper()}")
-        print(f"   Listening Target: Genre={user_prefs['genre']} | Mood={user_prefs['mood']} | Target Energy={user_prefs['energy']}")
-        print(f"   Advanced Targets: Valence={user_prefs['valence']} | Danceability={user_prefs['danceability']} | Tempo={user_prefs['tempo']} BPM")
-        print("=" * total_width)
+def run_pipeline(user_query: str, agent: "MusicAgent | None", top_k: int = 3):
+    print("\n" + "="*60)
+    print(f"🎵 User Query: '{user_query}'")
+    print("="*60)
+    logging.info(f"Received query: {user_query}")
 
-        recommendations = recommend_songs(user_prefs, songs, k=3, strategy=strategy)
+    # Step 1: Input Guardrail Check
+    is_valid_input, input_msg = validate_input_query(user_query)
+    if not is_valid_input:
+        print(f"\n🛡️ [Input Guardrail Blocked]: {input_msg}")
+        logging.warning(f"Input guardrail blocked query: {input_msg}")
+        return
 
-        # Print Table Headers
-        header = (
-            f"{'Rank'.ljust(col_rank)} | "
-            f"{'Song Title'.ljust(col_title)} | "
-            f"{'Artist'.ljust(col_artist)} | "
-            f"{'Score'.ljust(col_score)} | "
-            f"{'Algorithmic Explanation / Audit Trail'}"
-        )
-        print(header)
-        print("-" * total_width)
+    # Step 2: Agentic Query Parsing (LLM)
+    print("\n🧠 Parsing query intent via Gemini Agent...")
+    constraints = {}
+    if agent is not None:
+        constraints = agent.parse_user_query(user_query)
+        print(f"   Parsed Constraints: {constraints}")
+        logging.info(f"Parsed constraints: {constraints}")
 
-       # Print Rows
-        for index, rec in enumerate(recommendations, start=1):
-            song, score, explanation = rec
-            title_txt = song['title'][:col_title-2] + ".." if len(song['title']) > col_title else song['title']
-            artist_txt = song['artist'][:col_artist-2] + ".." if len(song['artist']) > col_artist else song['artist']
-            
-            # Wrap the long audit text
-            wrapped_reasons = wrap_text(explanation, col_explain_width)
-            
-            # Combine the index and dot into a single clean string of length col_rank
-            rank_str = f"{index}."
-            
-            # First line contains all the main metadata
-            first_explain = wrapped_reasons[0] if wrapped_reasons else ""
-            row_line = (
-                f"{rank_str.ljust(col_rank)} | "
-                f"{title_txt.ljust(col_title)} | "
-                f"{artist_txt.ljust(col_artist)} | "
-                f"{f'{score:.2f}'.ljust(col_score)} | "
-                f"{first_explain}"
-            )
-            print(row_line)
-            
-            # If there are wrapped overflow lines, print them perfectly aligned in sub-rows!
-            for extra_line in wrapped_reasons[1:]:
-                spacer_row = (
-                    f"{''.ljust(col_rank)} | "
-                    f"{''.ljust(col_title)} | "
-                    f"{''.ljust(col_artist)} | "
-                    f"{''.ljust(col_score)} | "
-                    f"{extra_line}"
-                )
-                print(spacer_row)
-                
-            print("-" * total_width)
-        print("\n" * 2)
+    # Fallback keyword extraction if LLM returned empty or failed
+    if not constraints:
+        q_lower = user_query.lower()
+        if "pop" in q_lower:
+            constraints["genre"] = "pop"
+        elif "lofi" in q_lower or "lo-fi" in q_lower:
+            constraints["genre"] = "lofi"
+        elif "rock" in q_lower:
+            constraints["genre"] = "rock"
+
+    # Step 3: Retrieval Engine
+    print("\n🔍 Searching & Ranking Tracks in Database...")
+    retriever = TrackRetriever("data/songs.csv")
+    raw_recommendations = retriever.retrieve_top_tracks(constraints, top_k=top_k)
+    logging.info(f"Retrieved {len(raw_recommendations)} raw tracks from database.")
+
+    # Step 4: Output Guardrail Check
+    print("\n🛡️ Validating Recommendations against Output Guardrails...")
+    is_valid_out, out_msg, validated_recs = validate_output_recommendations(
+        raw_recommendations, dataset_path="data/songs.csv"
+    )
+
+    if not is_valid_out:
+        print(f"\n🛡️ [Output Guardrail Blocked]: {out_msg}")
+        logging.warning(f"Output guardrail blocked recommendations: {out_msg}")
+        return
+
+    # Step 5: Grounded Explanation Synthesis (RAG Mode)
+    print("\n✨ Synthesizing Personalized Explanation (RAG Mode)...")
+    if agent and constraints and "target_energy" in constraints:
+        explanation = agent.synthesize_explanation(user_query, validated_recs)
+    else:
+        explanation = f"Matched top tracks based on feature proximity and dataset constraints ({constraints})."
+
+    # Step 6: Display Final Results
+    print("\n" + "🎶 Recommended Playlist " + "="*37)
+    for idx, track in enumerate(validated_recs, 1):
+        print(f"{idx}. '{track['title']}' by {track['artist']}")
+        print(f"   Genre: {track['genre'].title()} | Mood: {track['mood'].title()} | BPM: {int(track['tempo_bpm'])}")
+        print(f"   Energy: {track['energy']} | Valence: {track['valence']} | Danceability: {track['danceability']}")
+        print("-" * 60)
+
+    print("\n💬 Concierge Explanation:")
+    print(f"   \"{explanation}\"")
+    print("="*60 + "\n")
+    logging.info("Pipeline execution completed successfully.")
+
+
+def main():
+    print("==================================================")
+    print("   Applied AI System: Music Recommender Engine    ")
+    print("==================================================")
+
+    agent = None
+    try:
+        agent = MusicAgent()
+    except Exception as e:
+        print(f"⚠️ [Agent Warning]: Could not initialize Gemini agent ({e}). Falling back to keyword search.")
+
+    if len(sys.argv) > 1:
+        user_query = " ".join(sys.argv[1:])
+        run_pipeline(user_query, agent)
+    else:
+        while True:
+            print("\nOptions:")
+            print("1) Enter a natural language music query")
+            print("2) Run sample benchmark queries")
+            print("q) Quit")
+            choice = input("\nEnter choice: ").strip().lower()
+
+            if choice == "q":
+                print("\nGoodbye!")
+                break
+            elif choice == "1":
+                query = input("\nWhat kind of music are you looking for? ").strip()
+                if query:
+                    run_pipeline(query, agent)
+            elif choice == "2":
+                samples = [
+                    "Upbeat pop music for a high-energy workout",
+                    "Chill lofi beats for late night coding",
+                    "sudo rm -rf / data system",
+                    "How do I file my income taxes?"
+                ]
+                for sample in samples:
+                    run_pipeline(sample, agent)
+            else:
+                print("Unknown choice. Please enter 1, 2, or q.")
 
 if __name__ == "__main__":
     main()

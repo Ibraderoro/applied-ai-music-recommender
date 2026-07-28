@@ -3,23 +3,35 @@ Agent module for parsing user intent into structured audio feature targets using
 """
 
 import os
+import re
 import json
 from typing import Dict, Any
 from google import genai
+from dotenv import load_dotenv
 
-GEMINI_MODEL_NAME = "gemini-2.5-flash"
+load_dotenv(override=True)
+
+GEMINI_MODEL_NAME = "gemini-flash-latest"
 
 class MusicAgent:
     def __init__(self):
-        api_key = os.getenv("GEMINI_API_KEY")
+        raw_key = os.getenv("GEMINI_API_KEY", "")
+        api_key = raw_key.strip().strip("'").strip('"')
+        
         if not api_key:
             raise RuntimeError("GEMINI_API_KEY environment variable not found.")
+        
+        # Initialize GenAI Client with explicit API key
         self.client = genai.Client(api_key=api_key)
+        self.llm_available = True
 
     def parse_user_query(self, query: str) -> Dict[str, Any]:
         """
         Parses a natural language query into audio target features.
         """
+        if not self.llm_available:
+            return {}
+
         prompt = f"""
 You are an expert music feature parser for a recommendation system.
 Extract feature targets from the user request and return ONLY a raw JSON object (no markdown, no backticks).
@@ -43,20 +55,23 @@ JSON Output:
                 config={"temperature": 0.0}
             )
             raw_text = (response.text or "").strip()
-            # Clean possible markdown formatting
             if raw_text.startswith("```"):
                 raw_text = re.sub(r"^```(json)?|```$", "", raw_text, flags=re.MULTILINE).strip()
             
             parsed = json.loads(raw_text)
             return parsed
         except Exception as e:
-            print(f"[Agent Warning] Failed to parse query via LLM: {e}")
+            self.llm_available = False
+            print(f"[Agent Warning] Gemini call failed, disabling LLM parsing for this session: {e}")
             return {}
 
     def synthesize_explanation(self, query: str, recommendations: list) -> str:
         """
         Generates a personalized summary explaining why these songs fit the user request.
         """
+        if not self.llm_available:
+            return "Here are your personalized track recommendations based on your preferences."
+
         song_list_str = "\n".join(
             [f"- {s['title']} by {s['artist']} (Genre: {s['genre']}, Mood: {s['mood']})" for s in recommendations]
         )
@@ -78,4 +93,6 @@ Rely strictly on the provided track details and do not invent other songs.
             )
             return (response.text or "").strip()
         except Exception as e:
+            self.llm_available = False
+            print(f"[Agent Warning] Gemini call failed, disabling LLM parsing for this session: {e}")
             return "Here are your personalized track recommendations based on your preferences."

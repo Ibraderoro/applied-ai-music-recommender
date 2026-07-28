@@ -1,0 +1,241 @@
+2026-07-28 15:22:57,779 - INFO - Received query: Upbeat pop music for a high-energy workout
+2026-07-28 15:22:57,781 - INFO - Retrieved 3 raw tracks from database.
+2026-07-28 15:22:57,782 - INFO - Pipeline execution completed successfully.
+2026-07-28 15:22:57,782 - INFO - Received query: Chill lofi beats for late night coding
+2026-07-28 15:22:57,782 - INFO - Retrieved 3 raw tracks from database.
+2026-07-28 15:22:57,783 - INFO - Pipeline execution completed successfully.
+2026-07-28 15:22:57,783 - INFO - Received query: sudo rm -rf / data system
+2026-07-28 15:22:57,783 - WARNING - Input guardrail blocked query: I cannot process this request based on safety rules (command injection attempt).
+2026-07-28 15:22:57,783 - INFO - Received query: How do I file my income taxes?
+2026-07-28 15:22:57,783 - INFO - Retrieved 3 raw tracks from database.
+2026-07-28 15:22:57,783 - INFO - Pipeline execution completed successfully.
+2026-07-28 15:28:15,449 - INFO - Received query: Upbeat pop music for a high-energy workout
+2026-07-28 15:28:15,504 - INFO - AFC is enabled with max remote calls: 10.
+2026-07-28 15:28:15,608 - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 400 Bad Request"
+2026-07-28 15:28:15,609 - INFO - Parsed constraints: {}
+2026-07-28 15:28:15,609 - INFO - Retrieved 3 raw tracks from database.
+2026-07-28 15:28:15,609 - INFO - AFC is enabled with max remote calls: 10.
+2026-07-28 15:28:15,766 - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 400 Bad Request"
+2026-07-28 15:28:15,766 - INFO - Pipeline execution completed successfully.
+2026-07-28 15:28:15,766 - INFO - Received query: Chill lofi beats for late night coding
+2026-07-28 15:28:15,797 - INFO - AFC is enabled with max remote calls: 10.
+2026-07-28 15:28:15,884 - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 400 Bad Request"
+2026-07-28 15:28:15,885 - INFO - Parsed constraints: {}
+2026-07-28 15:28:15,885 - INFO - Retrieved 3 raw tracks from database.
+2026-07-28 15:28:15,885 - INFO - AFC is enabled with max remote calls: 10.
+2026-07-28 15:28:16,018 - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 400 Bad Request"
+2026-07-28 15:28:16,019 - INFO - Pipeline execution completed successfully.
+2026-07-28 15:28:16,020 - INFO - Received query: sudo rm -rf / data system
+2026-07-28 15:28:16,020 - WARNING - Input guardrail blocked query: I cannot process this request based on safety rules (command injection attempt).
+2026-07-28 15:28:16,020 - INFO - Received query: How do I file my income taxes?
+2026-07-28 15:28:16,020 - WARNING - Input guardrail blocked query: I cannot process this request based on safety rules (out-of-scope domain query).
+2026-07-28 15:29:00,137 - INFO - Received query: Upbeat pop music for a high-energy workout
+2026-07-28 15:29:00,192 - INFO - AFC is enabled with max remote calls: 10.
+2026-07-28 15:29:00,290 - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 400 Bad Request"
+2026-07-28 15:29:00,291 - INFO - Parsed constraints: {}
+2026-07-28 15:29:00,291 - INFO - Retrieved 3 raw tracks from database.
+2026-07-28 15:29:00,291 - INFO - AFC is enabled with max remote calls: 10.
+2026-07-28 15:29:00,336 - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 400 Bad Request"
+2026-07-28 15:29:00,337 - INFO - Pipeline execution completed successfully.
+2026-07-28 15:29:00,337 - INFO - Received query: Chill lofi beats for late night coding
+2026-07-28 15:29:00,370 - INFO - AFC is enabled with max remote calls: 10.
+2026-07-28 15:29:00,464 - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 400 Bad Request"
+2026-07-28 15:29:00,464 - INFO - Parsed constraints: {}
+2026-07-28 15:29:00,465 - INFO - Retrieved 3 raw tracks from database.
+2026-07-28 15:29:00,465 - INFO - AFC is enabled with max remote calls: 10.
+2026-07-28 15:29:00,511 - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 400 Bad Request"
+2026-07-28 15:29:00,512 - INFO - Pipeline execution completed successfully.
+2026-07-28 15:29:00,512 - INFO - Received query: sudo rm -rf / data system
+2026-07-28 15:29:00,512 - WARNING - Input guardrail blocked query: I cannot process this request based on safety rules (command injection attempt).
+2026-07-28 15:29:00,512 - INFO - Received query: How do I file my income taxes?
+2026-07-28 15:29:00,512 - WARNING - Input guardrail blocked query: I cannot process this request based on safety rules (out-of-scope domain query).
+2026-07-28 15:34:36,524 - INFO - Received query: Upbeat pop music for a high-energy workout
+2026-07-28 15:34:36,576 - INFO - AFC is enabled with max remote calls: 10.
+2026-07-28 15:34:36,689 - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 400 Bad Request"
+2026-07-28 15:34:36,689 - INFO - Parsed constraints: {}
+2026-07-28 15:34:36,689 - INFO - Retrieved 3 raw tracks from database.
+2026-07-28 15:34:36,690 - INFO - Pipeline execution completed successfully.
+2026-07-28 15:34:36,690 - INFO - Received query: Chill lofi beats for late night coding
+2026-07-28 15:34:36,724 - INFO - AFC is enabled with max remote calls: 10.
+2026-07-28 15:34:36,810 - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 400 Bad Request"
+2026-07-28 15:34:36,811 - INFO - Parsed constraints: {}
+2026-07-28 15:34:36,811 - INFO - Retrieved 3 raw tracks from database.
+2026-07-28 15:34:36,811 - INFO - Pipeline execution completed successfully.
+2026-07-28 15:34:36,811 - INFO - Received query: sudo rm -rf / data system
+2026-07-28 15:34:36,811 - WARNING - Input guardrail blocked query: I cannot process this request based on safety rules (command injection attempt).
+2026-07-28 15:34:36,811 - INFO - Received query: How do I file my income taxes?
+2026-07-28 15:34:36,811 - WARNING - Input guardrail blocked query: I cannot process this request based on safety rules (out-of-scope domain query).
+2026-07-28 15:43:40,341 - INFO - Received query: Upbeat pop music for a high-energy workout
+2026-07-28 15:43:40,395 - INFO - AFC is enabled with max remote calls: 10.
+2026-07-28 15:43:40,508 - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 400 Bad Request"
+2026-07-28 15:43:40,509 - INFO - Parsed constraints: {}
+2026-07-28 15:43:40,509 - INFO - Retrieved 3 raw tracks from database.
+2026-07-28 15:43:40,510 - INFO - Pipeline execution completed successfully.
+2026-07-28 15:43:40,510 - INFO - Received query: Chill lofi beats for late night coding
+2026-07-28 15:43:40,545 - INFO - AFC is enabled with max remote calls: 10.
+2026-07-28 15:43:40,635 - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 400 Bad Request"
+2026-07-28 15:43:40,635 - INFO - Parsed constraints: {}
+2026-07-28 15:43:40,636 - INFO - Retrieved 3 raw tracks from database.
+2026-07-28 15:43:40,636 - INFO - Pipeline execution completed successfully.
+2026-07-28 15:43:40,636 - INFO - Received query: sudo rm -rf / data system
+2026-07-28 15:43:40,636 - WARNING - Input guardrail blocked query: I cannot process this request based on safety rules (command injection attempt).
+2026-07-28 15:43:40,636 - INFO - Received query: How do I file my income taxes?
+2026-07-28 15:43:40,636 - WARNING - Input guardrail blocked query: I cannot process this request based on safety rules (out-of-scope domain query).
+2026-07-28 15:44:26,869 - INFO - Received query: Upbeat pop music for a high-energy workout
+2026-07-28 15:44:26,922 - INFO - AFC is enabled with max remote calls: 10.
+2026-07-28 15:44:27,021 - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 400 Bad Request"
+2026-07-28 15:44:27,022 - INFO - Parsed constraints: {}
+2026-07-28 15:44:27,022 - INFO - Retrieved 3 raw tracks from database.
+2026-07-28 15:44:27,022 - INFO - Pipeline execution completed successfully.
+2026-07-28 15:44:27,022 - INFO - Received query: Chill lofi beats for late night coding
+2026-07-28 15:44:27,056 - INFO - AFC is enabled with max remote calls: 10.
+2026-07-28 15:44:27,146 - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 400 Bad Request"
+2026-07-28 15:44:27,146 - INFO - Parsed constraints: {}
+2026-07-28 15:44:27,147 - INFO - Retrieved 3 raw tracks from database.
+2026-07-28 15:44:27,147 - INFO - Pipeline execution completed successfully.
+2026-07-28 15:44:27,147 - INFO - Received query: sudo rm -rf / data system
+2026-07-28 15:44:27,147 - WARNING - Input guardrail blocked query: I cannot process this request based on safety rules (command injection attempt).
+2026-07-28 15:44:27,147 - INFO - Received query: How do I file my income taxes?
+2026-07-28 15:44:27,147 - WARNING - Input guardrail blocked query: I cannot process this request based on safety rules (out-of-scope domain query).
+2026-07-28 15:46:23,022 - INFO - Received query: Upbeat pop music for a high-energy workout
+2026-07-28 15:46:23,074 - INFO - AFC is enabled with max remote calls: 10.
+2026-07-28 15:46:23,174 - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 400 Bad Request"
+2026-07-28 15:46:23,174 - INFO - Parsed constraints: {}
+2026-07-28 15:46:23,175 - INFO - Retrieved 3 raw tracks from database.
+2026-07-28 15:46:23,175 - INFO - Pipeline execution completed successfully.
+2026-07-28 15:46:23,175 - INFO - Received query: Chill lofi beats for late night coding
+2026-07-28 15:46:23,208 - INFO - AFC is enabled with max remote calls: 10.
+2026-07-28 15:46:23,313 - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 400 Bad Request"
+2026-07-28 15:46:23,314 - INFO - Parsed constraints: {}
+2026-07-28 15:46:23,314 - INFO - Retrieved 3 raw tracks from database.
+2026-07-28 15:46:23,314 - INFO - Pipeline execution completed successfully.
+2026-07-28 15:46:23,314 - INFO - Received query: sudo rm -rf / data system
+2026-07-28 15:46:23,314 - WARNING - Input guardrail blocked query: I cannot process this request based on safety rules (command injection attempt).
+2026-07-28 15:46:23,314 - INFO - Received query: How do I file my income taxes?
+2026-07-28 15:46:23,314 - WARNING - Input guardrail blocked query: I cannot process this request based on safety rules (out-of-scope domain query).
+2026-07-28 15:52:08,950 - INFO - Received query: Upbeat pop music for a high-energy workout
+2026-07-28 15:52:09,002 - INFO - AFC is enabled with max remote calls: 10.
+2026-07-28 15:52:09,121 - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 400 Bad Request"
+2026-07-28 15:52:09,127 - INFO - Parsed constraints: {}
+2026-07-28 15:52:09,127 - INFO - Retrieved 3 raw tracks from database.
+2026-07-28 15:52:09,128 - INFO - Pipeline execution completed successfully.
+2026-07-28 15:52:09,128 - INFO - Received query: Chill lofi beats for late night coding
+2026-07-28 15:52:09,163 - INFO - AFC is enabled with max remote calls: 10.
+2026-07-28 15:52:09,254 - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 400 Bad Request"
+2026-07-28 15:52:09,254 - INFO - Parsed constraints: {}
+2026-07-28 15:52:09,254 - INFO - Retrieved 3 raw tracks from database.
+2026-07-28 15:52:09,254 - INFO - Pipeline execution completed successfully.
+2026-07-28 15:52:09,254 - INFO - Received query: sudo rm -rf / data system
+2026-07-28 15:52:09,254 - WARNING - Input guardrail blocked query: I cannot process this request based on safety rules (command injection attempt).
+2026-07-28 15:52:09,254 - INFO - Received query: How do I file my income taxes?
+2026-07-28 15:52:09,254 - WARNING - Input guardrail blocked query: I cannot process this request based on safety rules (out-of-scope domain query).
+2026-07-28 15:57:06,004 - INFO - Received query: Upbeat pop music for a high-energy workout
+2026-07-28 15:57:06,056 - INFO - AFC is enabled with max remote calls: 10.
+2026-07-28 15:57:06,176 - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 400 Bad Request"
+2026-07-28 15:57:06,176 - INFO - Parsed constraints: {}
+2026-07-28 15:57:06,177 - INFO - Retrieved 3 raw tracks from database.
+2026-07-28 15:57:06,177 - INFO - Pipeline execution completed successfully.
+2026-07-28 15:57:06,177 - INFO - Received query: Chill lofi beats for late night coding
+2026-07-28 15:57:06,212 - INFO - AFC is enabled with max remote calls: 10.
+2026-07-28 15:57:06,325 - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 400 Bad Request"
+2026-07-28 15:57:06,325 - INFO - Parsed constraints: {}
+2026-07-28 15:57:06,325 - INFO - Retrieved 3 raw tracks from database.
+2026-07-28 15:57:06,326 - INFO - Pipeline execution completed successfully.
+2026-07-28 15:57:06,326 - INFO - Received query: sudo rm -rf / data system
+2026-07-28 15:57:06,326 - WARNING - Input guardrail blocked query: I cannot process this request based on safety rules (command injection attempt).
+2026-07-28 15:57:06,326 - INFO - Received query: How do I file my income taxes?
+2026-07-28 15:57:06,326 - WARNING - Input guardrail blocked query: I cannot process this request based on safety rules (out-of-scope domain query).
+2026-07-28 16:26:17,721 - INFO - Received query: Upbeat pop music for a high-energy workout
+2026-07-28 16:26:17,772 - INFO - AFC is enabled with max remote calls: 10.
+2026-07-28 16:26:17,888 - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 400 Bad Request"
+2026-07-28 16:26:17,889 - INFO - Parsed constraints: {}
+2026-07-28 16:26:17,889 - INFO - Retrieved 3 raw tracks from database.
+2026-07-28 16:26:17,889 - INFO - Pipeline execution completed successfully.
+2026-07-28 16:26:17,889 - INFO - Received query: Chill lofi beats for late night coding
+2026-07-28 16:26:17,924 - INFO - AFC is enabled with max remote calls: 10.
+2026-07-28 16:26:18,010 - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 400 Bad Request"
+2026-07-28 16:26:18,011 - INFO - Parsed constraints: {}
+2026-07-28 16:26:18,011 - INFO - Retrieved 3 raw tracks from database.
+2026-07-28 16:26:18,011 - INFO - Pipeline execution completed successfully.
+2026-07-28 16:26:18,011 - INFO - Received query: sudo rm -rf / data system
+2026-07-28 16:26:18,011 - WARNING - Input guardrail blocked query: I cannot process this request based on safety rules (command injection attempt).
+2026-07-28 16:26:18,011 - INFO - Received query: How do I file my income taxes?
+2026-07-28 16:26:18,012 - WARNING - Input guardrail blocked query: I cannot process this request based on safety rules (out-of-scope domain query).
+2026-07-28 16:31:58,611 - INFO - Received query: Upbeat pop music for a high-energy workout
+2026-07-28 16:31:58,611 - INFO - AFC is enabled with max remote calls: 10.
+2026-07-28 16:31:58,817 - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 404 Not Found"
+2026-07-28 16:31:58,818 - INFO - Parsed constraints: {}
+2026-07-28 16:31:58,819 - INFO - Retrieved 3 raw tracks from database.
+2026-07-28 16:31:58,819 - INFO - Pipeline execution completed successfully.
+2026-07-28 16:32:58,753 - INFO - Received query: Chill lofi beats for late night coding
+2026-07-28 16:32:58,753 - INFO - AFC is enabled with max remote calls: 10.
+2026-07-28 16:33:01,338 - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent "HTTP/1.1 200 OK"
+2026-07-28 16:33:01,340 - INFO - Parsed constraints: {'genre': 'lofi', 'mood': 'chill', 'target_energy': 0.3, 'target_valence': 0.4, 'target_danceability': 0.4, 'target_tempo_bpm': 80}
+2026-07-28 16:33:01,341 - INFO - Retrieved 3 raw tracks from database.
+2026-07-28 16:33:01,342 - INFO - AFC is enabled with max remote calls: 10.
+2026-07-28 16:33:07,595 - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent "HTTP/1.1 200 OK"
+2026-07-28 16:33:07,598 - INFO - Pipeline execution completed successfully.
+2026-07-28 16:40:56,954 - INFO - Received query: Upbeat pop music for a high-energy workout
+2026-07-28 16:40:56,955 - INFO - AFC is enabled with max remote calls: 10.
+2026-07-28 16:40:57,222 - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent "HTTP/1.1 400 Bad Request"
+2026-07-28 16:40:57,223 - INFO - Parsed constraints: {}
+2026-07-28 16:40:57,224 - INFO - Retrieved 3 raw tracks from database.
+2026-07-28 16:40:57,225 - INFO - Pipeline execution completed successfully.
+2026-07-28 16:40:57,225 - INFO - Received query: Chill lofi beats for late night coding
+2026-07-28 16:40:57,225 - INFO - Parsed constraints: {}
+2026-07-28 16:40:57,225 - INFO - Retrieved 3 raw tracks from database.
+2026-07-28 16:40:57,225 - INFO - Pipeline execution completed successfully.
+2026-07-28 16:40:57,225 - INFO - Received query: sudo rm -rf / data system
+2026-07-28 16:40:57,225 - WARNING - Input guardrail blocked query: I cannot process this request based on safety rules (command injection attempt).
+2026-07-28 16:40:57,225 - INFO - Received query: How do I file my income taxes?
+2026-07-28 16:40:57,226 - WARNING - Input guardrail blocked query: I cannot process this request based on safety rules (out-of-scope domain query).
+2026-07-28 16:43:40,548 - INFO - Received query: Upbeat pop music for a high-energy workout
+2026-07-28 16:43:40,548 - INFO - AFC is enabled with max remote calls: 10.
+2026-07-28 16:43:43,777 - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent "HTTP/1.1 200 OK"
+2026-07-28 16:43:43,780 - INFO - Parsed constraints: {'genre': 'pop', 'mood': 'energetic', 'target_energy': 0.85, 'target_valence': 0.8, 'target_danceability': 0.75, 'target_tempo_bpm': 130}
+2026-07-28 16:43:43,780 - INFO - Retrieved 3 raw tracks from database.
+2026-07-28 16:43:43,780 - INFO - AFC is enabled with max remote calls: 10.
+2026-07-28 16:43:47,961 - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent "HTTP/1.1 200 OK"
+2026-07-28 16:43:47,964 - INFO - Pipeline execution completed successfully.
+2026-07-28 16:45:18,809 - INFO - Received query: Upbeat pop music for a high-energy workout
+2026-07-28 16:45:18,810 - INFO - AFC is enabled with max remote calls: 10.
+2026-07-28 16:45:18,987 - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent "HTTP/1.1 400 Bad Request"
+2026-07-28 16:45:18,999 - INFO - Parsed constraints: {}
+2026-07-28 16:45:19,000 - INFO - Retrieved 3 raw tracks from database.
+2026-07-28 16:45:19,001 - INFO - Pipeline execution completed successfully.
+2026-07-28 16:45:19,001 - INFO - Received query: Chill lofi beats for late night coding
+2026-07-28 16:45:19,001 - INFO - Parsed constraints: {}
+2026-07-28 16:45:19,002 - INFO - Retrieved 3 raw tracks from database.
+2026-07-28 16:45:19,002 - INFO - Pipeline execution completed successfully.
+2026-07-28 16:45:19,002 - INFO - Received query: sudo rm -rf / data system
+2026-07-28 16:45:19,002 - WARNING - Input guardrail blocked query: I cannot process this request based on safety rules (command injection attempt).
+2026-07-28 16:45:19,002 - INFO - Received query: How do I file my income taxes?
+2026-07-28 16:45:19,002 - WARNING - Input guardrail blocked query: I cannot process this request based on safety rules (out-of-scope domain query).
+2026-07-28 16:54:52,193 - INFO - Received query: Upbeat pop music for a high-energy workout
+2026-07-28 16:54:52,194 - INFO - AFC is enabled with max remote calls: 10.
+2026-07-28 16:54:55,316 - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent "HTTP/1.1 200 OK"
+2026-07-28 16:54:55,319 - INFO - Parsed constraints: {'genre': 'pop', 'mood': 'energetic', 'target_energy': 0.9, 'target_valence': 0.8, 'target_danceability': 0.8, 'target_tempo_bpm': 130}
+2026-07-28 16:54:55,320 - INFO - Retrieved 3 raw tracks from database.
+2026-07-28 16:54:55,320 - INFO - AFC is enabled with max remote calls: 10.
+2026-07-28 16:55:01,866 - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent "HTTP/1.1 200 OK"
+2026-07-28 16:55:01,869 - INFO - Pipeline execution completed successfully.
+2026-07-28 16:56:20,199 - INFO - Received query: Upbeat pop music for a high-energy workout
+2026-07-28 16:56:20,200 - INFO - AFC is enabled with max remote calls: 10.
+2026-07-28 16:56:24,783 - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent "HTTP/1.1 200 OK"
+2026-07-28 16:56:24,786 - INFO - Parsed constraints: {'genre': 'pop', 'mood': 'upbeat', 'target_energy': 0.85, 'target_valence': 0.8, 'target_danceability': 0.75, 'target_tempo_bpm': 128}
+2026-07-28 16:56:24,787 - INFO - Retrieved 3 raw tracks from database.
+2026-07-28 16:56:24,787 - INFO - AFC is enabled with max remote calls: 10.
+2026-07-28 16:56:29,698 - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent "HTTP/1.1 200 OK"
+2026-07-28 16:56:29,701 - INFO - Pipeline execution completed successfully.
+2026-07-28 16:56:29,702 - INFO - Received query: Chill lofi beats for late night coding
+2026-07-28 16:56:29,702 - INFO - AFC is enabled with max remote calls: 10.
+2026-07-28 16:56:32,596 - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent "HTTP/1.1 200 OK"
+2026-07-28 16:56:32,599 - INFO - Parsed constraints: {'genre': 'lofi', 'mood': 'chill', 'target_energy': 0.3, 'target_valence': 0.4, 'target_danceability': 0.4, 'target_tempo_bpm': 80}
+2026-07-28 16:56:32,599 - INFO - Retrieved 3 raw tracks from database.
+2026-07-28 16:56:32,600 - INFO - AFC is enabled with max remote calls: 10.
+2026-07-28 16:56:43,245 - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent "HTTP/1.1 200 OK"
+2026-07-28 16:56:43,248 - INFO - Pipeline execution completed successfully.
+2026-07-28 16:56:43,248 - INFO - Received query: sudo rm -rf / data system
+2026-07-28 16:56:43,248 - WARNING - Input guardrail blocked query: I cannot process this request based on safety rules (command injection attempt).
+2026-07-28 16:56:43,249 - INFO - Received query: How do I file my income taxes?
+2026-07-28 16:56:43,249 - WARNING - Input guardrail blocked query: I cannot process this request based on safety rules (out-of-scope domain query).
