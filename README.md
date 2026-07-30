@@ -316,12 +316,12 @@ _(Note: Detailed reflections regarding AI collaboration, specific helpful/flawed
 
 ## 🚀 Optional Stretch Features Implemented (+4 Extra Points)
 
-### 1. Test Harness & Evaluation Script (eval.py) — +2 Points
+### 1. Test Harness & Evaluation Script (eval.py)
 
 - **Implementation:** Built an automated benchmark runner (`eval.py`) that systematically tests the system against valid music requests, prompt injections, and off-topic queries.
 - **Output:** Evaluates guardrail accuracy and retrieval precision, printing pass/fail summaries and logging system events to `system_execution.log`.
 
-### 2. Specialized Few-Shot Exemplar Agent (src/agent.py) — +2 Points
+### 2. Specialized Few-Shot Exemplar Agent (src/agent.py)
 
 - **Implementation:** Integrated in-context few-shot exemplars within the `MusicAgent` prompt structure to specialize Gemini's audio parameter mapping.
 - **Measurable Difference:** Improved attribute alignment for complex or ambiguous queries (e.g., mapping "coding" specifically to low energy/low BPM and "workout" to high energy/BPM).
