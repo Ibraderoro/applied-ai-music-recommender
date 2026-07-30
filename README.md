@@ -4,7 +4,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Build Status](https://img.shields.io/badge/tests-74%20passed-brightgreen.svg)](#-testing-summary--evaluations)
 
-An enterprise-ready, agentic music discovery assistant that transforms unstructured, natural language user prompts into precise multi-attribute database queries. Built upon a hybrid Retrieval-Augmented Generation (RAG) architecture, this system combines **Google Gemini 2.5 Flash** for intent parsing and grounded explanation synthesis with a deterministic Python proximity engine, artist diversity saturation controls, and dual-layer safety guardrails.
+An enterprise-ready, agentic music discovery assistant that transforms unstructured, natural language user prompts into precise multi-attribute database queries. Built upon a hybrid Retrieval-Augmented Generation (RAG) architecture, this system combines **Google Gemini 3.6 Flash** for intent parsing and grounded explanation synthesis with a deterministic Python proximity engine, artist diversity saturation controls, and dual-layer safety guardrails.
 
 ---
 
@@ -34,7 +34,7 @@ flowchart TD
     end
 
     subgraph AgenticPipeline ["🧠 Agentic Intent Parser (Gemini)"]
-        GeminiAgent["Gemini 2.5 Flash Agent<br/><i>(Parses Query to JSON Constraints)</i>"]
+        GeminiAgent["Gemini 3.6 Flash Agent<br/><i>(Parses Query to JSON Constraints)</i>"]
         FallbackExtractor["Keyword Fallback Engine<br/><i>(Triggered if LLM / API Offline)</i>"]
     end
 

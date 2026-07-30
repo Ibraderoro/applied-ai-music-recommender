@@ -2,7 +2,7 @@
 
 ## System Overview & Model Details
 * **System Name:** Applied AI Music Recommender Engine (VibePulse Evolution)
-* **Model Architecture:** Gemini 2.5 Flash (`gemini-2.5-flash`) via `google-genai` SDK combined with a deterministic multi-attribute proximity retriever.
+* **Model Architecture:** Gemini 3.6 Flash (`gemini-3.6-flash`) via `google-genai` SDK combined with a deterministic multi-attribute proximity retriever.
 * **Primary Task:** Converting natural language music queries into structured JSON feature constraints (`genre`, `target_tempo_bpm`, `target_energy`, `target_valence`), executing proximity scoring against ground-truth database tracks, and synthesizing grounded playlist concierge explanations.
 
 ---
@@ -35,7 +35,7 @@
 
 During testing, the most surprising finding was **how easily unconstrained LLMs hallucinate plausible-sounding song metadata**. 
 
-When testing an early ungrounded baseline prompt, the LLM returned track recommendations with confidence, but invented titles like *"Lo-Fi Study Beats Vol. 1"* by fake artists—complete with fabricated BPM and energy metrics. This highlighted that LLMs cannot be trusted to act as databases. 
+When testing an early ungrounded baseline prompt, the LLM returned track recommendations with confidence, but invented titles like *"Lo-Fi Study Beats Vol. 1"* by fake artists—complete with fabricated BPM and energy metrics. This highlighted that LLMs cannot be trusted to act as databases.
 
 Transitioning the LLM's role strictly to **structured parameter extraction (JSON format)** while delegating search to a deterministic Python retriever completely solved the hallucination issue, bringing output accuracy to **100% across all 74 unit tests**.
 
