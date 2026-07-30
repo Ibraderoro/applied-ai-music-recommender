@@ -10,7 +10,7 @@ An enterprise-ready, agentic music discovery assistant that transforms unstructu
 
 ## 📌 Base Project Identification & Summary
 
-- **Base Project:** _VibePulse Content-Based Music Recommender Simulation_ (Modules 1–3).
+- **Base Project:** _VibePulse Content-Based Music Recommender Simulation_.
 - **Original Goals & Capabilities:** The original system operated as a deterministic mathematical simulator. It ingested flat CSV catalogs and ranked tracks using static string checks (genre and mood weights) alongside linear distance deductions for acoustic energy and tempo deltas, displaying results inside a command-line ASCII table.
 - **Applied AI Evolution:** This project evolves the base engine into an intelligent AI Concierge. It integrates **Agentic Intent Parsing** to convert raw user prompts into structured JSON audio constraints, **Deterministic Safety Guardrails** to catch prompt injections and out-of-scope domain queries, **Grounded RAG Explanations** to prevent track hallucinations, and a **Graceful Degradation Fallback** to handle API network limits seamlessly.
 
@@ -314,7 +314,7 @@ _(Note: Detailed reflections regarding AI collaboration, specific helpful/flawed
 
 ---
 
-## 🚀 Optional Stretch Features Implemented (+4 Extra Points)
+## 🚀 Optional Stretch Features Implemented
 
 ### 1. Test Harness & Evaluation Script (eval.py)
 
