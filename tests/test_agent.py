@@ -26,10 +26,11 @@ def fake_client(monkeypatch):
 
 
 class TestMusicAgentInit:
-    def test_raises_without_api_key(self, monkeypatch):
+    def test_disables_llm_without_api_key(self, monkeypatch):
         monkeypatch.delenv("GEMINI_API_KEY", raising=False)
-        with pytest.raises(RuntimeError, match="GEMINI_API_KEY"):
-            MusicAgent()
+        music_agent = MusicAgent()
+        assert music_agent.llm_available is False
+        assert music_agent.client is None
 
     def test_strips_quotes_and_whitespace_from_api_key(self, monkeypatch, fake_client):
         monkeypatch.setenv("GEMINI_API_KEY", '  "wrapped-key"  ')

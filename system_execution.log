@@ -364,3 +364,23 @@
 2026-07-29 11:07:59,632 - WARNING - Input guardrail blocked query: I cannot process this request based on safety rules (command injection attempt).
 2026-07-29 11:07:59,632 - INFO - Received query: How do I file my income taxes?
 2026-07-29 11:07:59,632 - WARNING - Input guardrail blocked query: I cannot process this request based on safety rules (out-of-scope domain query).
+2026-07-30 10:47:34,491 - INFO - Received query: Upbeat pop music for a high-energy workout
+2026-07-30 10:47:34,492 - INFO - AFC is enabled with max remote calls: 10.
+2026-07-30 10:47:37,505 - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent "HTTP/1.1 200 OK"
+2026-07-30 10:47:37,508 - INFO - Parsed constraints: {'genre': 'pop', 'mood': 'intense', 'target_energy': 0.9, 'target_valence': 0.8, 'target_danceability': 0.85, 'target_tempo_bpm': 130}
+2026-07-30 10:47:37,510 - INFO - Retrieved 3 raw tracks from database.
+2026-07-30 10:47:37,511 - INFO - AFC is enabled with max remote calls: 10.
+2026-07-30 10:47:42,657 - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent "HTTP/1.1 200 OK"
+2026-07-30 10:47:42,671 - INFO - Pipeline execution completed successfully.
+2026-07-30 10:48:57,124 - INFO - Received query: Chill lofi beats for late night coding
+2026-07-30 10:48:57,124 - INFO - AFC is enabled with max remote calls: 10.
+2026-07-30 10:49:00,186 - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent "HTTP/1.1 200 OK"
+2026-07-30 10:49:00,188 - INFO - Parsed constraints: {'genre': 'lofi', 'mood': 'chill', 'target_energy': 0.3, 'target_valence': 0.45, 'target_danceability': 0.4, 'target_tempo_bpm': 80}
+2026-07-30 10:49:00,189 - INFO - Retrieved 3 raw tracks from database.
+2026-07-30 10:49:00,190 - INFO - AFC is enabled with max remote calls: 10.
+2026-07-30 10:49:04,776 - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent "HTTP/1.1 200 OK"
+2026-07-30 10:49:04,779 - INFO - Pipeline execution completed successfully.
+2026-07-30 10:50:14,983 - INFO - Received query: sudo rm -rf/data
+2026-07-30 10:50:14,984 - WARNING - Input guardrail blocked query: I cannot process this request based on safety rules (command injection attempt).
+2026-07-30 10:51:09,057 - INFO - Received query: How do I file my taxes?
+2026-07-30 10:51:09,057 - WARNING - Input guardrail blocked query: I cannot process this request based on safety rules (out-of-scope domain query).
