@@ -1,76 +1,97 @@
 """
-Retriever engine for scoring tracks against extracted user constraints.
+Multi-source retriever with resilient row parsing and inverted index pre-filtering.
 """
 
+import json
 import csv
+import logging
+from pathlib import Path
 from typing import List, Dict, Any
+from src.scoring import ScoringEngine
 
-class TrackRetriever:
-    def __init__(self, dataset_path: str = "data/songs.csv"):
-        self.dataset_path = dataset_path
-        self.tracks = self._load_dataset()
+logger = logging.getLogger(__name__)
 
-    def _load_dataset(self) -> List[Dict[str, Any]]:
-        tracks = []
-        with open(self.dataset_path, "r", encoding="utf-8") as f:
-            reader = csv.DictReader(f)
-            for row in reader:
-                tracks.append({
-                    "id": row["id"],
-                    "title": row["title"],
-                    "artist": row["artist"],
-                    "genre": row["genre"].lower(),
-                    "mood": row["mood"].lower(),
-                    "energy": float(row["energy"]),
-                    "tempo_bpm": float(row["tempo_bpm"]),
-                    "valence": float(row["valence"]),
-                    "danceability": float(row["danceability"]),
-                    "acousticness": float(row["acousticness"])
-                })
-        return tracks
+class MultiSourceRetriever:
+    def __init__(self, data_sources: List[Path]):
+        self.data_sources = data_sources
+        self.catalog: List[Dict[str, Any]] = []
+        self.genre_index: Dict[str, List[Dict[str, Any]]] = {}
+        self.mood_index: Dict[str, List[Dict[str, Any]]] = {}
+        self.load_and_index_data()
 
-    def score_track(self, track: Dict[str, Any], constraints: Dict[str, Any]) -> float:
-        score = 5.0
+    def load_and_index_data(self) -> None:
+        """Loads catalog tracks from CSV and JSON files with row-level fault tolerance."""
+        self.catalog.clear()
+        self.genre_index.clear()
+        self.mood_index.clear()
 
-        target_genre = constraints.get("genre")
-        if target_genre:
-            if target_genre.lower() in track["genre"] or target_genre.lower() in track["mood"]:
-                score += 3.0
-            else:
-                score -= 1.0
+        for source in self.data_sources:
+            if not source.exists():
+                logger.warning(f"Data source file not found: {source}")
+                continue
 
-        target_mood = constraints.get("mood")
-        if target_mood:
-            if target_mood.lower() in track["mood"] or target_mood.lower() in track["genre"]:
-                score += 2.0
+            # Load CSV Source
+            if source.suffix.lower() == ".csv":
+                with open(source, mode="r", encoding="utf-8") as f:
+                    reader = csv.DictReader(f)
+                    for row_num, row in enumerate(reader, start=1):
+                        try:
+                            track = {
+                                "id": int(row["id"]),
+                                "title": row["title"].strip(),
+                                "artist": row["artist"].strip(),
+                                "genre": row["genre"].strip().lower(),
+                                "mood": row["mood"].strip().lower(),
+                                "energy": float(row["energy"]),
+                                "tempo_bpm": float(row["tempo_bpm"]),
+                                "valence": float(row.get("valence", 0.5)),
+                                "danceability": float(row.get("danceability", 0.5)),
+                                "source": source.name
+                            }
+                            self.catalog.append(track)
+                        except (ValueError, KeyError) as e:
+                            logger.warning(f"Skipping malformed row {row_num} in {source.name}: {e}")
+                            continue
 
-        if constraints.get("target_energy") is not None:
-            diff = abs(track["energy"] - float(constraints["target_energy"]))
-            score += (1.0 - diff) * 1.5
+            # Load JSON Source
+            elif source.suffix.lower() == ".json":
+                with open(source, mode="r", encoding="utf-8") as f:
+                    try:
+                        items = json.load(f)
+                        for item in items:
+                            try:
+                                item["genre"] = item["genre"].strip().lower()
+                                item["mood"] = item["mood"].strip().lower()
+                                item["source"] = source.name
+                                self.catalog.append(item)
+                            except (KeyError, AttributeError):
+                                continue
+                    except json.JSONDecodeError as e:
+                        logger.warning(f"Error parsing JSON source {source.name}: {e}")
+                        continue
 
-        if constraints.get("target_tempo_bpm") is not None:
-            target_bpm = float(constraints["target_tempo_bpm"])
-            diff_bpm = abs(track["tempo_bpm"] - target_bpm) / 200.0
-            score += max(0, (1.0 - diff_bpm)) * 1.5
+        # Build In-Memory Inverted Index
+        for track in self.catalog:
+            self.genre_index.setdefault(track["genre"], []).append(track)
+            self.mood_index.setdefault(track["mood"], []).append(track)
 
-        return round(score, 2)
+    def retrieve(self, constraints: Dict[str, Any], top_k: int = 3) -> List[Dict[str, Any]]:
+        """Pre-filters candidate pool using inverted index and scores tracks via ScoringEngine."""
+        target_genre = constraints.get("genre", "").lower()
 
-    def retrieve_top_tracks(self, constraints: Dict[str, Any], top_k: int = 3) -> List[Dict[str, Any]]:
-        scored_tracks = []
-        for track in self.tracks:
-            score = self.score_track(track, constraints)
-            scored_tracks.append((track, score))
+        # Inverted Index Pre-filtering ($O(1)$ candidate retrieval)
+        if target_genre in self.genre_index:
+            candidate_pool = self.genre_index[target_genre]
+        else:
+            candidate_pool = self.catalog
 
-        scored_tracks.sort(key=lambda x: x[1], reverse=True)
+        scored_candidates = []
+        for track in candidate_pool:
+            score = ScoringEngine.calculate_track_score(track, constraints)
+            scored_track = track.copy()
+            scored_track["score"] = score
+            scored_candidates.append(scored_track)
 
-        seen_artists = {}
-        diverse_tracks = []
-        for track, score in scored_tracks:
-            artist = track["artist"]
-            count = seen_artists.get(artist, 0)
-            adjusted_score = score - (count * 1.0)
-            seen_artists[artist] = count + 1
-            diverse_tracks.append((track, adjusted_score))
-
-        diverse_tracks.sort(key=lambda x: x[1], reverse=True)
-        return [t[0] for t in diverse_tracks[:top_k]]
+        # Apply Dynamic Artist Diversity Saturation
+        diverse_candidates = ScoringEngine.apply_artist_diversity_penalty(scored_candidates)
+        return diverse_candidates[:top_k]

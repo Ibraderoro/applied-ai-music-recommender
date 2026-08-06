@@ -384,3 +384,52 @@
 2026-07-30 10:50:14,984 - WARNING - Input guardrail blocked query: I cannot process this request based on safety rules (command injection attempt).
 2026-07-30 10:51:09,057 - INFO - Received query: How do I file my taxes?
 2026-07-30 10:51:09,057 - WARNING - Input guardrail blocked query: I cannot process this request based on safety rules (out-of-scope domain query).
+2026-08-05 15:26:10,236 - INFO - Received query: Upbeat pop music for a high-energy workout
+2026-08-05 15:28:21,203 - INFO - Received query: Upbeat pop music for a high-energy workout
+2026-08-05 15:28:21,205 - INFO - AFC is enabled with max remote calls: 10.
+2026-08-05 15:28:21,416 - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 404 Not Found"
+2026-08-05 15:28:21,417 - WARNING - Gemini API parsing failed (404 NOT_FOUND. {'error': {'code': 404, 'message': 'This model models/gemini-2.5-flash is no longer available to new users. Please update your code to use a newer model for the latest features and improvements.', 'status': 'NOT_FOUND'}}). Falling back to keyword parser.
+2026-08-05 15:28:21,417 - INFO - Parsed constraints: {'genre': 'pop', 'mood': 'energetic', 'target_energy': 0.9, 'target_tempo_bpm': 130}
+2026-08-05 15:32:26,674 - INFO - Received query: Upbeat pop music for a high-energy workout
+2026-08-05 15:32:26,675 - INFO - AFC is enabled with max remote calls: 10.
+2026-08-05 15:32:26,872 - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 404 Not Found"
+2026-08-05 15:32:26,874 - WARNING - Gemini API parsing failed (404 NOT_FOUND. {'error': {'code': 404, 'message': 'This model models/gemini-2.5-flash is no longer available to new users. Please update your code to use a newer model for the latest features and improvements.', 'status': 'NOT_FOUND'}}). Falling back to keyword parser.
+2026-08-05 15:32:26,874 - INFO - Parsed constraints: {'genre': 'pop', 'mood': 'energetic', 'target_energy': 0.9, 'target_tempo_bpm': 130}
+2026-08-05 15:34:10,534 - INFO - Received query: Upbeat pop music for a high-energy workout
+2026-08-05 15:34:10,536 - INFO - AFC is enabled with max remote calls: 10.
+2026-08-05 15:34:10,746 - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 404 Not Found"
+2026-08-05 15:34:10,748 - WARNING - Gemini API parsing failed (404 NOT_FOUND. {'error': {'code': 404, 'message': 'This model models/gemini-2.5-flash is no longer available to new users. Please update your code to use a newer model for the latest features and improvements.', 'status': 'NOT_FOUND'}}). Falling back to keyword parser.
+2026-08-05 15:34:10,748 - INFO - Parsed constraints: {'genre': 'pop', 'mood': 'energetic', 'target_energy': 0.9, 'target_tempo_bpm': 130}
+2026-08-05 15:34:10,750 - WARNING - Data source file not found: data/indie_tracks.json
+2026-08-05 15:41:00,943 - INFO - Received query: Upbeat pop music for a high-energy workout
+2026-08-05 15:41:00,944 - INFO - AFC is enabled with max remote calls: 10.
+2026-08-05 15:41:01,140 - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 404 Not Found"
+2026-08-05 15:41:01,142 - WARNING - Gemini API parsing failed (404 NOT_FOUND. {'error': {'code': 404, 'message': 'This model models/gemini-2.5-flash is no longer available to new users. Please update your code to use a newer model for the latest features and improvements.', 'status': 'NOT_FOUND'}}). Falling back to keyword parser.
+2026-08-05 15:41:01,142 - INFO - Parsed constraints: {'genre': 'pop', 'mood': 'energetic', 'target_energy': 0.9, 'target_tempo_bpm': 130}
+2026-08-05 15:41:01,143 - WARNING - Data source file not found: data/indie_tracks.json
+2026-08-05 15:41:01,143 - INFO - Retrieved 2 raw tracks from database.
+2026-08-05 15:41:01,143 - INFO - Pipeline execution completed successfully.
+2026-08-05 15:41:01,143 - INFO - Received query: Chill lofi beats for late night coding
+2026-08-05 15:41:01,144 - INFO - AFC is enabled with max remote calls: 10.
+2026-08-05 15:41:01,269 - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 404 Not Found"
+2026-08-05 15:41:01,270 - WARNING - Gemini API parsing failed (404 NOT_FOUND. {'error': {'code': 404, 'message': 'This model models/gemini-2.5-flash is no longer available to new users. Please update your code to use a newer model for the latest features and improvements.', 'status': 'NOT_FOUND'}}). Falling back to keyword parser.
+2026-08-05 15:41:01,270 - INFO - Parsed constraints: {'genre': 'lofi', 'mood': 'chill', 'target_energy': 0.4, 'target_tempo_bpm': 80}
+2026-08-05 15:41:01,270 - WARNING - Data source file not found: data/indie_tracks.json
+2026-08-05 15:41:01,270 - INFO - Retrieved 3 raw tracks from database.
+2026-08-05 15:41:01,270 - INFO - Pipeline execution completed successfully.
+2026-08-05 15:41:01,270 - INFO - Received query: sudo rm -rf / data system
+2026-08-05 15:41:01,270 - WARNING - Input guardrail blocked query: I cannot process this request based on safety rules (command injection attempt).
+2026-08-05 15:41:01,270 - INFO - Received query: How do I file my income taxes?
+2026-08-05 15:41:01,270 - WARNING - Input guardrail blocked query: I cannot process this request based on safety rules (out-of-scope domain query).
+2026-08-05 15:41:51,087 - INFO - Received query: How do I file my income taxes?
+2026-08-05 15:41:51,088 - WARNING - Input guardrail blocked query: I cannot process this request based on safety rules (out-of-scope domain query).
+2026-08-05 15:42:14,876 - INFO - Received query: sudo rm -rf / data system
+2026-08-05 15:42:14,877 - WARNING - Input guardrail blocked query: I cannot process this request based on safety rules (command injection attempt).
+2026-08-05 15:42:55,626 - INFO - Received query: Chill lofi beats for late night coding
+2026-08-05 15:42:55,627 - INFO - AFC is enabled with max remote calls: 10.
+2026-08-05 15:42:55,838 - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 404 Not Found"
+2026-08-05 15:42:55,840 - WARNING - Gemini API parsing failed (404 NOT_FOUND. {'error': {'code': 404, 'message': 'This model models/gemini-2.5-flash is no longer available to new users. Please update your code to use a newer model for the latest features and improvements.', 'status': 'NOT_FOUND'}}). Falling back to keyword parser.
+2026-08-05 15:42:55,840 - INFO - Parsed constraints: {'genre': 'lofi', 'mood': 'chill', 'target_energy': 0.4, 'target_tempo_bpm': 80}
+2026-08-05 15:42:55,841 - WARNING - Data source file not found: data/indie_tracks.json
+2026-08-05 15:42:55,841 - INFO - Retrieved 3 raw tracks from database.
+2026-08-05 15:42:55,842 - INFO - Pipeline execution completed successfully.

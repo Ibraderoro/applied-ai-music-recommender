@@ -1,21 +1,25 @@
 """
 Main CLI Runner for the Applied AI Music Recommender System.
-Integrates Input Guardrails, Agentic Query Parsing, Vector/Feature Retrieval,
+Integrates Input Guardrails, Agentic Query Parsing, Multi-Source Retrieval,
 LLM Explanation Synthesis, and Output Validation Guardrails.
 """
 
 import os
 import sys
 import logging
+from pathlib import Path
 from dotenv import load_dotenv
 
-sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+# Ensure project root directory is in sys.path
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
+if str(PROJECT_ROOT) not in sys.path:
+    sys.path.insert(0, str(PROJECT_ROOT))
 
 load_dotenv(override=True)
 
-from guardrails import validate_input_query, validate_output_recommendations
-from agent import MusicAgent
-from retriever import TrackRetriever
+from src.guardrails import validate_input_query, validate_output_recommendations
+from src.agent import MusicAgent
+from src.retriever import MultiSourceRetriever
 
 logging.basicConfig(
     filename="system_execution.log",
@@ -23,10 +27,11 @@ logging.basicConfig(
     format="%(asctime)s - %(levelname)s - %(message)s"
 )
 
+
 def run_pipeline(user_query: str, agent: "MusicAgent | None", top_k: int = 3):
-    print("\n" + "="*60)
+    print("\n" + "=" * 60)
     print(f"🎵 User Query: '{user_query}'")
-    print("="*60)
+    print("=" * 60)
     logging.info(f"Received query: {user_query}")
 
     # Step 1: Input Guardrail Check
@@ -56,8 +61,10 @@ def run_pipeline(user_query: str, agent: "MusicAgent | None", top_k: int = 3):
 
     # Step 3: Retrieval Engine
     print("\n🔍 Searching & Ranking Tracks in Database...")
-    retriever = TrackRetriever("data/songs.csv")
-    raw_recommendations = retriever.retrieve_top_tracks(constraints, top_k=top_k)
+    retriever = MultiSourceRetriever(
+        [Path("data/songs.csv"), Path("data/indie_tracks.json")]
+    )
+    raw_recommendations = retriever.retrieve(constraints, top_k=top_k)
     logging.info(f"Retrieved {len(raw_recommendations)} raw tracks from database.")
 
     # Step 4: Output Guardrail Check
@@ -73,22 +80,32 @@ def run_pipeline(user_query: str, agent: "MusicAgent | None", top_k: int = 3):
 
     # Step 5: Grounded Explanation Synthesis (RAG Mode)
     print("\n✨ Synthesizing Personalized Explanation (RAG Mode)...")
-    if agent and constraints and "target_energy" in constraints:
+    if agent and hasattr(agent, "synthesize_explanation"):
         explanation = agent.synthesize_explanation(user_query, validated_recs)
     else:
-        explanation = f"Matched top tracks based on feature proximity and dataset constraints ({constraints})."
+        explanation = (
+            f"Matched top tracks based on feature proximity and dataset constraints ({constraints})."
+        )
 
     # Step 6: Display Final Results
-    print("\n" + "🎶 Recommended Playlist " + "="*37)
+    print("\n" + "🎶 Recommended Playlist " + "=" * 37)
     for idx, track in enumerate(validated_recs, 1):
         print(f"{idx}. '{track['title']}' by {track['artist']}")
-        print(f"   Genre: {track['genre'].title()} | Mood: {track['mood'].title()} | BPM: {int(track['tempo_bpm'])}")
-        print(f"   Energy: {track['energy']} | Valence: {track['valence']} | Danceability: {track['danceability']}")
+        print(
+            f"   Genre: {track.get('genre', 'N/A').title()} | "
+            f"Mood: {track.get('mood', 'N/A').title()} | "
+            f"BPM: {int(track.get('tempo_bpm', 0))}"
+        )
+        print(
+            f"   Energy: {track.get('energy', 0.0)} | "
+            f"Valence: {track.get('valence', 0.0)} | "
+            f"Danceability: {track.get('danceability', 0.0)}"
+        )
         print("-" * 60)
 
     print("\n💬 Concierge Explanation:")
     print(f"   \"{explanation}\"")
-    print("="*60 + "\n")
+    print("=" * 60 + "\n")
     logging.info("Pipeline execution completed successfully.")
 
 
@@ -132,6 +149,7 @@ def main():
                     run_pipeline(sample, agent)
             else:
                 print("Unknown choice. Please enter 1, 2, or q.")
+
 
 if __name__ == "__main__":
     main()

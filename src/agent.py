@@ -1,120 +1,91 @@
 """
-Agent module for parsing user intent into structured audio feature targets using Gemini.
+Agent module supporting Baseline (Zero-Shot) vs Specialized (Few-Shot) prompt construction
+and user query intent parsing into structured audio constraints.
 """
 
 import os
-import re
 import json
 import logging
-from typing import Dict, Any
-from google import genai
-from dotenv import load_dotenv
+from typing import Dict, Any, Optional
 
-load_dotenv(override=True)
+logger = logging.getLogger(__name__)
 
-# Standardized active model name for the google-genai SDK
-GEMINI_MODEL_NAME = "gemini-flash-latest"
+# Fallback keyword parser in case Gemini API is offline or missing key
+def fallback_keyword_parser(query: str) -> Dict[str, Any]:
+    q = query.lower()
+    genre = "pop"
+    if "lofi" in q or "chill" in q:
+        genre = "lofi"
+    elif "rock" in q:
+        genre = "rock"
+    elif "indie" in q:
+        genre = "indie"
+
+    mood = "energetic" if "workout" in q or "upbeat" in q else "chill"
+    target_energy = 0.9 if "workout" in q or "high-energy" in q else 0.4
+    target_tempo = 130 if "workout" in q else 80
+
+    return {
+        "genre": genre,
+        "mood": mood,
+        "target_energy": target_energy,
+        "target_tempo_bpm": target_tempo
+    }
 
 class MusicAgent:
-    def __init__(self):
-        raw_key = os.getenv("GEMINI_API_KEY", "")
-        api_key = raw_key.strip().strip("'").strip('"')
-        
+    def __init__(self, use_few_shot: bool = True):
+        self.use_few_shot = use_few_shot
+        self.api_key = os.getenv("GEMINI_API_KEY")
         self.client = None
-        self.llm_available = False
 
-        if api_key:
+        if self.api_key:
             try:
-                self.client = genai.Client(api_key=api_key)
-                self.llm_available = True
+                from google import genai
+                self.client = genai.Client(api_key=self.api_key)
             except Exception as e:
-                logging.warning(f"Failed to initialize Gemini Client: {e}")
-                print(f"[Agent Warning] Could not initialize Gemini API: {e}")
-        else:
-            logging.info("No GEMINI_API_KEY provided. Operating in Fallback Mode.")
+                logger.warning(f"Could not initialize Gemini Client: {e}")
+
+    def construct_prompt(self, query: str) -> str:
+        """Constructs the prompt payload for Gemini parameter parsing."""
+        system_instruction = (
+            "Extract audio constraints as JSON with keys: "
+            "'genre' (str), 'mood' (str), 'target_energy' (float 0.0-1.0), "
+            "and 'target_tempo_bpm' (int). Respond ONLY with valid raw JSON."
+        )
+
+        if not self.use_few_shot:
+            return f"{system_instruction}\n\nUser Query: {query}"
+
+        exemplars = """
+Few-Shot Examples:
+Query: "Chill lofi beats for late night coding"
+JSON: {"genre": "lofi", "mood": "chill", "target_energy": 0.30, "target_tempo_bpm": 78}
+
+Query: "Upbeat pop music for a high-energy workout"
+JSON: {"genre": "pop", "mood": "energetic", "target_energy": 0.90, "target_tempo_bpm": 132}
+
+Query: "Acoustic coffee shop vibes on a rainy Sunday"
+JSON: {"genre": "acoustic", "mood": "calm", "target_energy": 0.25, "target_tempo_bpm": 82}
+"""
+        return f"{system_instruction}\n{exemplars}\nUser Query: {query}"
 
     def parse_user_query(self, query: str) -> Dict[str, Any]:
-        """
-        Parses a natural language query into structured audio target features.
-        Utilizes few-shot exemplars for precise parameter mapping.
-        """
-        if not self.llm_available or not self.client:
-            return {}
+        """Parses user query into structured audio parameter JSON."""
+        if not self.client:
+            logger.info("Gemini client offline or API key missing. Using fallback keyword parser.")
+            return fallback_keyword_parser(query)
 
-        prompt = f"""
-You are an expert music feature parser for a recommendation system.
-Extract feature targets from the user request and return ONLY a raw JSON object.
-
-Available dataset features and ranges:
-- genre: string or null (e.g. "pop", "lofi", "rock")
-- mood: string or null (e.g. "happy", "chill", "intense")
-- target_energy: float 0.0 to 1.0 or null
-- target_valence: float 0.0 to 1.0 or null
-- target_danceability: float 0.0 to 1.0 or null
-- target_tempo_bpm: integer or null (e.g., 120)
-
-### FEW-SHOT EXAMPLES FOR SPECIALIZATION:
-User Request: "upbeat songs for a high-energy gym session"
-JSON Output: {{"genre": "pop", "mood": "intense", "target_energy": 0.90, "target_valence": 0.80, "target_danceability": 0.85, "target_tempo_bpm": 130}}
-
-User Request: "calm acoustic tracks for late night study"
-JSON Output: {{"genre": "lofi", "mood": "chill", "target_energy": 0.35, "target_valence": 0.50, "target_danceability": 0.40, "target_tempo_bpm": 75}}
-
-User Request: "{query}"
-JSON Output:
-"""
+        prompt = self.construct_prompt(query)
         try:
             response = self.client.models.generate_content(
-                model=GEMINI_MODEL_NAME,
-                contents=prompt,
-                config={
-                    "temperature": 0.0,
-                    "response_mime_type": "application/json"
-                }
+                model="gemini-2.5-flash",
+                contents=prompt
             )
-            raw_text = (response.text or "").strip()
-            
-            # Fence cleanup fallback
-            if raw_text.startswith("```"):
-                raw_text = re.sub(r"^```(json)?|```$", "", raw_text, flags=re.MULTILINE).strip()
-            
-            parsed = json.loads(raw_text)
-            return parsed if isinstance(parsed, dict) else {}
+            text = response.text.strip()
+            # Strip markdown code blocks if returned
+            if text.startswith("```"):
+                text = text.split("\n", 1)[1].rsplit("\n", 1)[0].replace("json", "").strip()
+            return json.loads(text)
         except Exception as e:
-            self.llm_available = False
-            logging.warning(f"Gemini intent parsing failed: {e}")
-            print(f"[Agent Warning] Gemini call failed, disabling LLM parsing for this session: {e}")
-            return {}
-
-    def synthesize_explanation(self, query: str, recommendations: list) -> str:
-        """
-        Generates a personalized summary explaining why these songs fit the user request.
-        """
-        if not self.llm_available or not self.client:
-            return "Here are your personalized track recommendations based on your preferences."
-
-        song_list_str = "\n".join(
-            [f"- {s.get('title', 'Unknown')} by {s.get('artist', 'Unknown')} (Genre: {s.get('genre', 'N/A')}, Mood: {s.get('mood', 'N/A')})" for s in recommendations]
-        )
-        prompt = f"""
-You are a friendly music concierge assistant.
-User requested: "{query}"
-
-Recommended Tracks:
-{song_list_str}
-
-Briefly explain (in 2-3 sentences) why this playlist fits their mood and request. 
-Rely strictly on the provided track details and do not invent other songs.
-"""
-        try:
-            response = self.client.models.generate_content(
-                model=GEMINI_MODEL_NAME,
-                contents=prompt,
-                config={"temperature": 0.2}
-            )
-            return (response.text or "").strip()
-        except Exception as e:
-            self.llm_available = False
-            logging.warning(f"Gemini explanation synthesis failed: {e}")
-            print(f"[Agent Warning] Gemini explanation synthesis failed: {e}")
-            return "Here are your personalized track recommendations based on your preferences."
+            logger.warning(f"Gemini API parsing failed ({e}). Falling back to keyword parser.")
+            return fallback_keyword_parser(query)
